@@ -1,12 +1,15 @@
 <html>
-  <head>
-    <title onload="setTitleTo('Home');">
-      Teacher Tools -
-    </title>
+<head>
+    <title>Teacher Tools - </title>
+    
     <script>
-      function setTitleTo(title){
-        document.getElementByName("title").innerHTML("Teacher Tools - " + title)
-      }
+        function setTitleTo(title) {
+            document.title = "Teacher Tools - " + title;
+        }
+
+        window.onload = function() {
+            setTitleTo('Home');
+        };
     </script>
     <style>
       td{
