@@ -1,8 +1,13 @@
 <html>
   <head>
-    <title>
-      Cool website - Home
+    <title onload="setTitleTo(Home);">
+      Please refresh if this doesnt load.
     </title>
+    <script>
+      function setTitleTo(title){
+        document.getElementByName("title").innerHTML("Teacher Tools - " + title)
+      }
+    </script>
     <style>
       td{
         text-align:center;
