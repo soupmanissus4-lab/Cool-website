@@ -11,55 +11,6 @@
             setTitleTo('Home');
         };
 
-        const outputDiv = document.getElementById('console-output');
-  const inputField = document.getElementById('console-input');
-
-  // Intercept standard console.log to print to our custom console box
-  const oldLog = console.log;
-  console.log = function(...args) {
-    oldLog.apply(console, args);
-    const msg = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : arg).join(' ');
-    printToConsole(msg, 'log-msg');
-  };
-
-  function handleKey(event) {
-    if (event.key === 'Enter') {
-      executeCode();
-    }
-  }
-
-  function executeCode() {
-    const code = inputField.value.trim();
-    if (!code) return;
-
-    // Show the executed command in the console
-    printToConsole(`> ${code}`, 'log-msg');
-
-    try {
-      // Evaluate the input string safely
-      const result = eval(code);
-      if (result !== undefined) {
-        printToConsole(`<= ${result}`, 'return-msg');
-      }
-    } catch (error) {
-      printToConsole(`Error: ${error.message}`, 'error-msg');
-    }
-
-    inputField.value = ''; // Reset input field
-    outputDiv.scrollTop = outputDiv.scrollHeight; // Auto-scroll to bottom
-  }
-
-  function printToConsole(text, className) {
-    const logLine = document.createElement('div');
-    logLine.className = className;
-    logLine.textContent = text;
-    outputDiv.appendChild(logLine);
-  }
-
-  function clearConsole() {
-    outputDiv.innerHTML = '<div class="system-msg">> Console cleared.</div>';
-  }
-
     </script>
     <style>
       td{
@@ -93,21 +44,5 @@
     <h1>
       Hi lol
     </h1>
-      <div class="mini-console">
-          <div class="console-header">
-              <span>Mini JS Console</span>
-              <button onclick="clearConsole()" class="clear-btn">Clear</button>
-          </div>
-          <div id="console-output" class="console-output">
-              <div class="system-msg">> Console initialized. Type JS below...</div>
-          </div>
-          <div class="console-input-area">
-              <span class="prompt">></span>
-              <input type="text" id="console-input" placeholder="try console.log('Hello World') or 2 + 2" onkeydown="handleKey(event)">
-              <button onclick="executeCode()" class="run-btn">
-                  Run
-              </button>
-          </div>
-      </div>
   </body>
 </html>
