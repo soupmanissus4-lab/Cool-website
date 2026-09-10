@@ -1,39 +1,81 @@
 <html>
-<head>
-    <title>Teacher Tools - </title>
-    
-    <script>
-        function setTitleTo(title) {
-            document.title = "Teacher Tools - " + title;
-        }
+    <head>
+        <title>Teacher Tools - </title>
+        <script>
+            function setTitleTo(title) {
+                document.title = "Teacher Tools - " + title;
+            }
 
-        window.onload = function() {
-            setTitleTo('Home');
-        };
+            window.onload = function() {
+                setTitleTo('Home');
+            };
+            function setIntoGroups(amountOfGroups, listOfStrings) {
+            
+                const shuffled = [...listOfStrings].sort(() => Math.random() - 0.5);
+            
+                const groups = Array.from({ length: amountOfGroups }, () => []);
+            
+                shuffled.forEach((item, index) => {
+                    groups[index % amountOfGroups].push(item);
+                });
+            
+                return groups;
+            }
+            function handleGenerateGroups() {
+                
+                const amountOfGroups = parseInt(document.getElementById('groupCount').value);
+                const rawText = document.getElementById('listInput').value;
+                
+                
+                const listOfStrings = rawText.split('\n')
+                    .map(name => name.trim())
+                    .filter(name => name.length > 0);
+                    
+               
+                if (listOfStrings.length === 0) {
+                    alert('Please enter at least one name.');
+                    return;
+                }
+            
+                
+                const resultGroups = setIntoGroups(amountOfGroups, listOfStrings);
+                
+                displayResults(resultGroups);
+            }
+            
+            function displayResults(groups) {
+                const outputDiv = document.getElementById('output');
+                outputDiv.innerHTML = ''; // Clear previous results
+                
+                groups.forEach((group, index) => {
+                    const groupElement = document.createElement('div');
+                    groupElement.innerHTML = `<h3>Group ${index + 1}</h3><p>${group.join(', ') || 'Empty'}</p>`;
+                    outputDiv.appendChild(groupElement);
+                });
+            }
 
-    </script>
-    <style>
-      td{
-        text-align:center;
-      }
-      a{
-        text-decoration: none;
-        color: #495057;
-        transition: color 0.2s ease;
-      a.hover{
-        color: #41484e;
-      }
-      }
-      .tableOfContents{
-        background-color: #f9f9f9;
-        border: 1px solid #e0e0e0;
-        border-radius: 6px;
-        padding: 1.5rem;
-        max-width: 2000px;
-        margin-bottom: 2rem;
-        
-      }
-    </style>
+        </script>
+        <style>
+          td{
+            text-align:center;
+          }
+          a{
+            text-decoration: none;
+            color: #495057;
+            transition: color 0.2s ease;
+          a.hover{
+            color: #41484e;
+          }
+          }
+          .tableOfContents{
+              background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 1.5rem;
+            max-width: 2000px;
+            margin-bottom: 2rem;     
+          }
+        </style>
   </head>
   <body>
     <table width="100%" class="tableOfContents">
@@ -42,7 +84,17 @@
       </tr>
     </table><br>
     <h1>
-      Hi lol
+      Group Maker
     </h1>
+    <div class="input-container">
+        <label for="groupCount">Number of Groups:</label>
+        <input type="number" id="groupCount" min="1" value="2">
+        <br><br>
+        <label for="listInput">Enter Names (one per line):</label>
+        <br>
+        <textarea id="listInput" rows="10" cols="30" placeholder="John Doe&#10;Jane Smith&#10;Alex Jones"></textarea>
+        <br><br> <button onclick="handleGenerateGroups()">Generate Groups</button>
+    </div> 
+    <div id="output"></div>
   </body>
 </html>
